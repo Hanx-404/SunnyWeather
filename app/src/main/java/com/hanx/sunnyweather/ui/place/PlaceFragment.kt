@@ -48,18 +48,17 @@ class PlaceFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         }
-        viewModel.placeLiveData.observe(this, Observer { result ->
-            val places = result.getOrNull(1)
+        viewModel.placeLiveData.observe(viewLifecycleOwner, Observer { result ->
+            val places = result.getOrNull()
             if (places != null) {
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.bgImageView.visibility = View.GONE
                 viewModel.placeList.clear()
-                viewModel.placeList.addAll(listOf(places))
+                viewModel.placeList.addAll(places)
                 adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_SHORT).show()
-                // result.
-                // TODO
+                result.exceptionOrNull()?.printStackTrace()
             }
         })
     }
