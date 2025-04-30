@@ -1,5 +1,6 @@
 package com.hanx.sunnyweather.ui.weather
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,10 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityWeatherBinding.inflate(layoutInflater)
+        // 沉浸式状态栏
+        val decorView = window.decorView
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.statusBarColor = Color.TRANSPARENT
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -94,7 +99,6 @@ class WeatherActivity : AppCompatActivity() {
             val tempText = "${temperature.min.toInt()} ~ ${temperature.max.toInt()} ℃"
             temperatureInfo.text = tempText
 
-            // binding.forecastLayout.root.addView(view)
             forecastItems.addView(view)
         }
 
