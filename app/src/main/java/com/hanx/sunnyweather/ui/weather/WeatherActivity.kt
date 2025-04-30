@@ -12,11 +12,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hanx.sunnyweather.R
 import com.hanx.sunnyweather.databinding.ActivityWeatherBinding
-import com.hanx.sunnyweather.databinding.ForecastItemBinding
 import com.hanx.sunnyweather.logic.model.Weather
 import com.hanx.sunnyweather.logic.model.getSky
 import java.text.SimpleDateFormat
@@ -52,7 +50,7 @@ class WeatherActivity : AppCompatActivity() {
         if (viewModel.placeName.isEmpty()) {
             viewModel.placeName = intent.getStringExtra("place_name") ?: ""
         }
-        viewModel.weatherLiveData.observe(this, Observer { result ->
+        viewModel.weatherLiveData.observe(this) { result ->
             val weather = result.getOrNull()
             if (weather != null) {
                 showWeatherInfo(weather)
@@ -60,7 +58,7 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法成功获取 天气信息", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-        })
+        }
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
     }
 
