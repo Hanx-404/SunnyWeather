@@ -55,11 +55,21 @@ class WeatherActivity : AppCompatActivity() {
             if (weather != null) {
                 showWeatherInfo(weather)
             } else {
-                Toast.makeText(this, "无法成功获取 天气信息", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            binding.root.isRefreshing = false
         }
+        binding.root.setColorSchemeResources(com.google.android.material.R.color.design_default_color_primary)
+        refreshWeather()
+        binding.root.setOnRefreshListener {
+            refreshWeather()
+        }
+    }
+
+    fun refreshWeather() {
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
+        binding.root.isRefreshing = true
     }
 
     private fun showWeatherInfo(weather: Weather) {
